@@ -1,30 +1,24 @@
 #include "DHT.h"
 
-// ======================================
-// SMART FARMING - SISTEM VENTILASI KANDANG
-// Sensor : DHT22 + MQ-2
-// Aktuator : Fan Module L9110 + 2 LED
-// ======================================
 
-// ===== PIN SENSOR =====
 #define DHTPIN D4
 #define DHTTYPE DHT22
 
 const int pinMQ = A0;
 
-// ===== FAN L9110 =====
+
 const int INA = D5;
 const int INB = D6;
 
-// ===== LED INDIKATOR =====
+
 const int pinLEDHijau = D7;
 const int pinLEDMerah = D0;
 
-// ===== THRESHOLD =====
+
 const float BATAS_SUHU = 32.0;
 const int BATAS_GAS = 400;
 
-// Inisialisasi DHT22
+
 DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
@@ -33,15 +27,15 @@ void setup() {
 
   dht.begin();
 
-  // Fan
+
   pinMode(INA, OUTPUT);
   pinMode(INB, OUTPUT);
 
-  // LED
+
   pinMode(pinLEDHijau, OUTPUT);
   pinMode(pinLEDMerah, OUTPUT);
 
-  // Kondisi awal
+
   digitalWrite(INA, LOW);
   digitalWrite(INB, LOW);
 
@@ -96,14 +90,13 @@ void loop() {
 
   Serial.println("------------------------------------------------");
 
-  // ===== KONDISI PERINGATAN =====
+
   if (suhu >= BATAS_SUHU || nilaiGas >= BATAS_GAS) {
 
-    // Fan ON
     digitalWrite(INA, HIGH);
     digitalWrite(INB, LOW);
 
-    // LED
+
     digitalWrite(pinLEDHijau, LOW);
     digitalWrite(pinLEDMerah, HIGH);
 
@@ -126,7 +119,7 @@ void loop() {
     Serial.println("         dan kenyamanan ternak");
   }
 
-  // ===== KONDISI NORMAL =====
+
   else {
 
     // Fan OFF
