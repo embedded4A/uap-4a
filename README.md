@@ -32,7 +32,7 @@ Data yang diperoleh dari sensor digunakan untuk mengendalikan aktuator berupa **
 | **DHT22 (Data)** |      D4     |  Digital Input | Membaca suhu dan kelembapan kandang |
 | **MQ-2 (AO)**    |      A0     |  Analog Input  | Membaca kadar gas lingkungan        |
 | **L9110 (INA)**  |      D5     | Digital Output | Kontrol Fan Module                  |
-| **L9110 (INB)**  |      D6     | Digital Output | Kontrol Fan Module                  |
+| **L9110 (INB)**  |      GND     | Digital Output | Kontrol Fan Module                  |
 | **LED 1**    |      D7     | Digital Output | Indikator kondisi normal            |
 | **LED 2**    |      D0     | Digital Output | Indikator kondisi peringatan        |
 
