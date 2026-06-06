@@ -8,7 +8,7 @@ const int pinMQ = A0;
 
 
 const int INA = D5;
-const int INB = D6;
+
 
 
 const int pinLEDHijau = D7;
