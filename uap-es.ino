@@ -1,46 +1,38 @@
 #include "DHT.h"
 
-
 #define DHTPIN D4
 #define DHTTYPE DHT22
 
 const int pinMQ = A0;
 
-
+// Fan control
 const int INA = D5;
 
+// LED
+const int LED1 = D7;   // LED hijau
+const int LED2 = D0;   // LED merah
 
-
-const int pinLEDHijau = D7;
-const int pinLEDMerah = D0;
-
-
+// Batas sensor
 const float BATAS_SUHU = 32.0;
 const int BATAS_GAS = 400;
-
 
 DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
-
   Serial.begin(9600);
-
   dht.begin();
 
-
+  // Setup pin
   pinMode(INA, OUTPUT);
-  pinMode(INB, OUTPUT);
 
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
 
-  pinMode(pinLEDHijau, OUTPUT);
-  pinMode(pinLEDMerah, OUTPUT);
-
-
+  // Kondisi awal
   digitalWrite(INA, LOW);
-  digitalWrite(INB, LOW);
 
-  digitalWrite(pinLEDHijau, HIGH);
-  digitalWrite(pinLEDMerah, LOW);
+  digitalWrite(LED1, HIGH);
+  digitalWrite(LED2, LOW);
 
   Serial.println();
   Serial.println("================================================");
@@ -65,8 +57,8 @@ void loop() {
 
     Serial.println("ERROR : Gagal membaca DHT22");
 
-    digitalWrite(pinLEDHijau, LOW);
-    digitalWrite(pinLEDMerah, HIGH);
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, HIGH);
 
     delay(2000);
     return;
@@ -90,15 +82,15 @@ void loop() {
 
   Serial.println("------------------------------------------------");
 
-
+  // Kondisi bahaya
   if (suhu >= BATAS_SUHU || nilaiGas >= BATAS_GAS) {
 
+    // Fan ON
     digitalWrite(INA, HIGH);
-    digitalWrite(INB, LOW);
 
-
-    digitalWrite(pinLEDHijau, LOW);
-    digitalWrite(pinLEDMerah, HIGH);
+    // LED
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, HIGH);
 
     Serial.println("STATUS KANDANG : PERINGATAN");
 
@@ -111,7 +103,7 @@ void loop() {
     Serial.println();
     Serial.println("TINDAKAN OTOMATIS:");
     Serial.println("✓ Fan Module AKTIF");
-    Serial.println("✓ LED Merah MENYALA");
+    Serial.println("✓ LED2 MENYALA");
     Serial.println("✓ Sirkulasi udara ditingkatkan");
 
     Serial.println();
@@ -119,16 +111,14 @@ void loop() {
     Serial.println("         dan kenyamanan ternak");
   }
 
-
   else {
 
     // Fan OFF
     digitalWrite(INA, LOW);
-    digitalWrite(INB, LOW);
 
     // LED
-    digitalWrite(pinLEDHijau, HIGH);
-    digitalWrite(pinLEDMerah, LOW);
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, LOW);
 
     Serial.println("STATUS KANDANG : NORMAL");
     Serial.println("✓ Suhu kandang dalam batas aman");
@@ -136,8 +126,8 @@ void loop() {
     Serial.println("✓ Lingkungan ternak nyaman");
 
     Serial.println();
-    Serial.println("Fan Module     : MATI");
-    Serial.println("LED Hijau      : MENYALA");
+    Serial.println("Fan Module : MATI");
+    Serial.println("LED1       : MENYALA");
   }
 
   Serial.println("================================================");
